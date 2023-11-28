@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>davaleba 18</title>
+</head>
+<body>
+    <form name="signUp" id="sign-up">
+        <label for="first-name">First Name : </label><br>
+        <input type="text" name="first_name" id="first-name-input">
+        <br><br>
+        <label for="last-name">Last Name : </label><br>
+        <input type="text" name="last_name" id="last-name-input">
+        <br><br>
+        <label for="email">E-mail : </label><br>
+        <input type="email" name="email" id="email-input">
+        <br><br>
+        <label for="password">Password : </label><br>
+        <input type="password" name="password_first" id="password-input">
+        <br><br>
+        <label for="password">Confirm Password : </label><br>
+        <input type="password" name="password_second" id="password-input">
+        <br><br>
+        <label for="description">Description : </label>
+        <br>
+        <textarea name="description" id="description-input" cols="30" rows="5" maxlength="102"></textarea>
+        <br><br>
+        <button class="button">Registration</button>
+    </form>
+    <hr>
+    <br>
+    <input type="text" name="names" id="names">
+    <button id="submit" class="button">Submit</button>
+    <ul id="list"></ul>
+    <br><br><br>
+    <hr>
+    <br>
+    <ul id="persons"></ul>
+
+    <script>
+
+        //davaleba 1
+        const form = document.getElementById('sign-up')
+        form.addEventListener("submit", function(e){
+            e.preventDefault();
+            
+            try{
+                let form = document.forms.signUp
+
+                if(form.first_name.value.length < 6){
+                    throw new Error ('სახელი უნდა იყოს მინიმუმ 6 ასოიანი');
+                    return
+                }
+
+                if(form.last_name.value.length < 6){
+                    throw new Error ('გვარი უნდა იყოს მინიმუმ 6 ასოიანი')
+                    return
+                }
+                const validateEmail = (email) => {
+                    return String(email)
+                    .toLowerCase()
+                    .match(
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                    );
+                };
+                
+                if(! validateEmail(form.email.value)){
+                    throw new Error ('მეილი არა ვალიდურია')
+                    return
+                }
+
+                if(form.password_first.value.length < 6){
+                    throw new Error ('პაროლი უნდა შეიცავდეს მინიმუმ 6 სიმბოლოს')
+                    return
+                }
+
+                if(form.password_second.value !== form.password_first.value){
+                    throw new Error ('პაროლები არ ემთხვევა ერთმანეთს')
+                    return
+                }
+
+                if(form.description.value.length > 100){
+                    throw new Error ('ჩასაწერ ველში მაქსიმალური სიმბოლოების რაოდენობა 100-ზე მეტია')
+                    return
+                }
+            }
+            catch(e){
+                const p = document.createElement('p');
+                p.textContent = e.message;
+                p.style.color = "red"
+                document.body.appendChild(p);
+            }
+
+        })
+
+
+
+        //davaleba 2
+        let names_array = [];
+
+        let names1 = document.getElementById('names');
+
+        const submit = document.getElementById('submit')
+        submit.addEventListener("click", function(){
+            names_array.push(names1.value);
+            let list = document.getElementById('list');
+            const li = document.createElement('li');
+            li.textContent = names1.value;
+            list.appendChild(li);
+            li.classList.add("list-item")
+            names.value = ''
+        })
+
+        //davaleba 3
+        let person = [
+            {
+                "name" : "nana",
+                "lastName" : "dumbadze",
+                "age" : 23,
+                "profession" : "QA Tester"
+            },
+            {
+                "name" : "ana",
+                "lastName" : "dumbadze",
+                "age" : 16,
+                "profession" : "Administrator"
+            },
+            {
+                "name" : "lia",
+                "lastName" : "khutsishvili",
+                "age" : 25,
+                "profession" : "Moderator"
+            },
+            {
+                "name" : "ana",
+                "lastName" : "bibilashvili",
+                "age" : 17,
+                "profession" : "QA Tester"
+            },
+            {
+                "name" : "tatia",
+                "lastName" : "mamulashvili",
+                "age" : 24,
+                "profession" : "interior designer"
+            }
+        ]
+
+
+        person.filter(el => el.age > 18).map(el => {
+            const persons = document.getElementById('persons');
+            const newLi = document.createElement('li');
+            newLi.innerText = `name : ${el.name},
+                                last name : ${el.lastName}, 
+                                age : ${el.age}, 
+                                profession : ${el.profession}. `
+            persons.appendChild(newLi);
+        });
+        
+
+            
+
+    </script>
+
+</body>
+</html>
